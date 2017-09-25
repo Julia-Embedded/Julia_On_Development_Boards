@@ -264,6 +264,11 @@ end
 
 
 function export_pin(gpio::MachineGPIO, pin::Int)
+	flag = pin in values(gpio.pin)
+	if (!flag)
+		error("This is not a valid pin defined for " * gpio.name)
+		return
+	end
     export_str = "/sys/class/gpio/export"
     f = open(export_str,"w")
     write(f, string(pin))
@@ -271,6 +276,11 @@ function export_pin(gpio::MachineGPIO, pin::Int)
 end
 
 function unexport_pin(gpio::MachineGPIO, pin::Int)
+	flag = pin in values(gpio.pin)
+	if (!flag)
+		error("This is not a valid pin defined for " * gpio.name)
+		return
+	end
     unexport_str = "/sys/class/gpio/unexport"
     f = open(unexport_str, "w")
     write(f, string(pin))
@@ -278,6 +288,15 @@ function unexport_pin(gpio::MachineGPIO, pin::Int)
 end
 
 function setdirection_pin(gpio::MachineGPIO, pin::Int, dir::String)
+	flag = pin in values(gpio.pin)
+	if (!flag)
+		error("This is not a valid pin defined for " * gpio.name)
+		return
+	end
+	if (dir != IN || dir != OUT)
+		error("Valid directions are " * IN * " or " * OUT)
+		return
+	end
     setdir_str = "/sys/class/gpio/gpio" * string(pin) * "/direction"
     f = open(setdir_str, "w")
     write(f, dir) 
@@ -285,6 +304,11 @@ function setdirection_pin(gpio::MachineGPIO, pin::Int, dir::String)
 end
 
 function getvalue_pin(gpio::MachineGPIO, pin::Int)
+	flag = pin in values(gpio.pin)
+	if (!flag)
+		error("This is not a valid pin defined for " * gpio.name)
+		return
+	end
     setval_str = "/sys/class/gpio/gpio" * string(pin) * "/value"
     f = open(setval_str, "r")
     val::String = readline(f) 
@@ -292,14 +316,28 @@ function getvalue_pin(gpio::MachineGPIO, pin::Int)
     return val
 end
 
-function setvalue_pin(gpio::MachineGPIO, pin::Int, val::String)
+function setvalue_pin(gpio::MachineGPIO, pin::Int, val::Int)
+	flag = pin in values(gpio.pin)
+	if (!flag)
+		error("This is not a valid pin defined for " * gpio.name)
+		return
+	end
+	if (val != HIGH || val != LOW)
+		error("Valid values are " * string(HIGH) * " or " * string(LOW))
+		return
+	end
     setval_str = "/sys/class/gpio/gpio" * string(pin) * "/value"
     f = open(setval_str, "w")
-    write(f, val) 
+    write(f, string(val)) 
     close(f)
 end
 
 function getvalue_analog_pin(gpio::BBBGPIO, pin::Int)
+	flag = pin in values(gpio.pin)
+	if (!flag)
+		error("This is not a valid pin defined for " * gpio.name)
+		return
+	end
 	if (searchindex("01234567", pin) != 0) #BBB valid analog pins are 0-7.
 		getval_str = "/sys/bus/iio/devices/iio:device0/in_voltage" * string(pin) * "_raw"
 		f = open(getval_str, "r")
