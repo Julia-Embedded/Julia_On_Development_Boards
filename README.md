@@ -6,3 +6,20 @@ This is a work in progress. I am developing some ideas of being able to remotely
 See the videos for a demonstration: https://photos.app.goo.gl/0j8f1OwTQFWWTD052, https://photos.app.goo.gl/EI4JTKJqKwtJOWzk2 
 
 The videos are a bit dated. I've streamlined the code quite a bit more.
+
+The main Julia file that I am using, now, is Machine_GPIO.jl. It keeps all of the code in one file.
+
+Here's an example of using it to blink an LED on a remote development board. In this example, I have an LED attached
+to the NanoPi Duo board.
+
+npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
+
+include("Machine_GPIO.jl")
+
+import Machine_GPIO
+
+using Machine_GPIO
+
+npd = Machine_GPIO.NPDGPIO()
+
+remotecall_fetch(Machine_GPIO.local_blinkLED, npdProc[1], npd, npd.pin["PIN05"])
