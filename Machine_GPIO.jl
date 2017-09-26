@@ -6,8 +6,8 @@ checking_motion_sensor, checking_light_sensor, setvalue_analog_to_serial, local_
 
 const	IN		= 	"in"
 const	OUT		=	"out"
-const	HIGH	=	"1"
-const	LOW		=	"0"
+const	HIGH	=	1
+const	LOW		=	0
 
 abstract type AbstractGPIO end
 
@@ -293,8 +293,9 @@ function setdirection_pin(gpio::MachineGPIO, pin::Int, dir::String)
 		error("This is not a valid pin defined for " * gpio.name)
 		return
 	end
-	if (dir != IN || dir != OUT)
-		error("Valid directions are " * IN * " or " * OUT)
+	if (dir == IN || dir == OUT)
+	else
+		error("Valid direction is " * IN * " or " * OUT)
 		return
 	end
     setdir_str = "/sys/class/gpio/gpio" * string(pin) * "/direction"
@@ -322,7 +323,8 @@ function setvalue_pin(gpio::MachineGPIO, pin::Int, val::Int)
 		error("This is not a valid pin defined for " * gpio.name)
 		return
 	end
-	if (val != HIGH || val != LOW)
+	if (val == HIGH || val == LOW)
+	else
 		error("Valid values are " * string(HIGH) * " or " * string(LOW))
 		return
 	end
@@ -357,7 +359,7 @@ function setvalue_analog_to_serial(gpio::U86GPIO, portname::String, cmd::String)
     return readchomp(`./writeSerialStream --portname $portname --command $cmd`)
 end
 
-function local_blinkLED(gpio::MachineGPIO, pinLED::Int)
+function blinkLED(gpio::MachineGPIO, pinLED::Int)
 
 	export_pin(gpio, pinLED)
 	
@@ -377,14 +379,14 @@ function local_blinkLED(gpio::MachineGPIO, pinLED::Int)
 	unexport_pin(gpio, pinLED)
 end
 
-function checking_mic_sensor_on_arduino(u86::U86GPIO, pinLED::String, portname::String)
+function checking_mic_sensor_on_arduino(u86::U86GPIO, pinLED::Int, portname::String)
     an::String = "0"
     value::Int = 0
     prv::String = ""
 
     export_pin(u86, pinLED)
     sleep(1)
-    setdirection_pin(u86, pinLED, "out")
+    setdirection_pin(u86, pinLED, OUT)
 
     while (true)
         an = getvalue_analog_from_serial(u86, portname)  
@@ -394,9 +396,9 @@ function checking_mic_sensor_on_arduino(u86::U86GPIO, pinLED::String, portname::
         if value >= 525
             prv = "U86"
             for n = 1:5
-                setvalue_pin(u86, pinLED, "1")
+                setvalue_pin(u86, pinLED, HIGH)
                 sleep(.5)
-                setvalue_pin(u86, pinLED, "0")
+                setvalue_pin(u86, pinLED, LOW)
                 sleep(.5)
             end
             break
@@ -408,17 +410,17 @@ function checking_mic_sensor_on_arduino(u86::U86GPIO, pinLED::String, portname::
     return prv
 end
 
-function checking_motion_sensor(rpi::RPIGPIO, pinLED::String, pinSensor::String)
+function checking_motion_sensor(rpi::RPIGPIO, pinLED::Int, pinSensor::Int)
     ret::String = "0"
     prv::String = ""
 
     export_pin(rpi, pinLED)
     sleep(1)
-    setdirection_pin(rpi, pinLED, "out")
+    setdirection_pin(rpi, pinLED, OUT)
 
     export_pin(rpi, pinSensor)
     sleep(1)
-    setdirection_pin(rpi, pinSensor, "in")
+    setdirection_pin(rpi, pinSensor, IN)
 
     while (true)
         ret = getvalue_pin(rpi, pinSensor)  
@@ -426,9 +428,9 @@ function checking_motion_sensor(rpi::RPIGPIO, pinLED::String, pinSensor::String)
         if ret == "1"
             prv = "rpi"
             for n = 1:5
-                setvalue_pin(rpi, pinLED, "1")
+                setvalue_pin(rpi, pinLED, HIGH)
                 sleep(.5)
-                setvalue_pin(rpi, pinLED, "0")
+                setvalue_pin(rpi, pinLED, LOW)
                 sleep(.5)
             end
             break
@@ -442,14 +444,14 @@ function checking_motion_sensor(rpi::RPIGPIO, pinLED::String, pinSensor::String)
     return prv
 end
 
-function checking_light_sensor(bbb::BBBGPIO, pinLED::String, pinSensor::String)
+function checking_light_sensor(bbb::BBBGPIO, pinLED::Int, pinSensor::Int)
     an::String = "0"
     value::Int = 0
     prv::String = ""
 
     export_pin(bbb, pinLED)
     sleep(1)
-    setdirection_pin(bbb, pinLED, "out")
+    setdirection_pin(bbb, pinLED, OUT)
 
     while (true)
         an = getvalue_analog_pin(bbb, pinSensor)  
@@ -459,9 +461,9 @@ function checking_light_sensor(bbb::BBBGPIO, pinLED::String, pinSensor::String)
         if value >= 3000
             prv = "BBB"
             for n = 1:5
-                setvalue_pin(bbb, pinLED, "1")
+                setvalue_pin(bbb, pinLED, HIGH)
                 sleep(.5)
-                setvalue_pin(bbb, pinLED, "0")
+                setvalue_pin(bbb, pinLED, LOW)
                 sleep(.5)
             end
             break

@@ -1,20 +1,23 @@
 rpiProc = addprocs(["julia-user@NODE-RPI3"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_RPI.jl")
+include("Machine_GPIO.jl")
 
-import GPIO_RPI
+import Machine_GPIO
 
-using GPIO_RPI
+using Machine_GPIO
 
-remotecall_fetch(export_pin, rpiProc[1], GPIO_RPI.PIN07)
+rpi = Machine_GPIO.RPIGPIO()
 
-remotecall_fetch(setdirection_pin, rpiProc[1], GPIO_RPI.PIN07, GPIO_RPI.OUT)
+
+remotecall_fetch(export_pin, rpiProc[1], rpi, rpi.pin["PIN05"])
+
+remotecall_fetch(setdirection_pin, rpiProc[1], rpi, rpi.pin["PIN05"], Machine_GPIO.OUT)
 
 for n = 1:10
-	remotecall_fetch(setvalue_pin, rpiProc[1], GPIO_RPI.PIN07, GPIO_RPI.HIGH)
+	remotecall_fetch(setvalue_pin, rpiProc[1], rpi, rpi.pin["PIN05"], Machine_GPIO.HIGH)
 	sleep(.5)
-	remotecall_fetch(setvalue_pin, rpiProc[1], GPIO_RPI.PIN07, GPIO_RPI.LOW)
+	remotecall_fetch(setvalue_pin, rpiProc[1], rpi, rpi.pin["PIN05"], Machine_GPIO.LOW)
 	sleep(.5)
 end
 
-remotecall_fetch(unexport_pin, rpiProc[1], GPIO_RPI.PIN07)
+remotecall_fetch(unexport_pin, rpiProc[1], rpi, rpi.pin["PIN05"])
