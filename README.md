@@ -42,6 +42,23 @@ rpi = Machine_GPIO.RPIGPIO()
 remotecall_fetch(Machine_GPIO.blinkLED, rpiProc[1], rpi, rpi.pin["PIN05"])
 ```
 
+And, here is the same code with little change blinking an LED on the Beaglebone Black (note - we needed to use
+a different pin).
+
+```
+bbbProc = addprocs(["julia-user@NODE-BBB"],dir="/home/julia-user/julia-0.6.0/bin/")
+
+include("Machine_GPIO.jl")
+
+import Machine_GPIO
+
+using Machine_GPIO
+
+bbb = Machine_GPIO.BBBGPIO()
+
+remotecall_fetch(Machine_GPIO.blinkLED, bbbProc[1], bbb, bbb.pin["P9_PIN15"])
+```
+
 This is another blink LED example, but each line is being sent from the master node to the slave node [development
 board - back to the NanoPi Duo].
 
