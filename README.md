@@ -27,6 +27,7 @@ remotecall_fetch(Machine_GPIO.blinkLED, npdProc[1], npd, npd.pin["PIN05"])
 This example does the same thing as above, but each line is being sent from the master node to the slave node [development
 board].
 
+```
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
 
 include("Machine_GPIO.jl")
@@ -36,7 +37,9 @@ import Machine_GPIO
 using Machine_GPIO
 
 npd = Machine_GPIO.NPDGPIO()
+```
 
+```
 #blink LED
 remotecall_fetch(export_pin, npdProc[1], npd, npd.pin["PIN05"])
 
@@ -50,3 +53,4 @@ for n = 1:10
 end
 
 remotecall_fetch(unexport_pin, npdProc[1], npd, npd.pin["PIN05"])
+```
