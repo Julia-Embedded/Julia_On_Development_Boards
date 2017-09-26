@@ -12,6 +12,7 @@ The main Julia file that I am using, now, is Machine_GPIO.jl. It keeps all of th
 Here's an example of using it to blink an LED on a remote development board. In this example, I have an LED attached
 to the NanoPi Duo board on pin 5. In this example, the whole function blink_LED is being done on the development board.
 
+```
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
 
 include("Machine_GPIO.jl")
@@ -23,6 +24,7 @@ using Machine_GPIO
 npd = Machine_GPIO.NPDGPIO()
 
 remotecall_fetch(Machine_GPIO.blinkLED, npdProc[1], npd, npd.pin["PIN05"])
+```
 
 This example does the same thing as above, but each line is being sent from the master node to the slave node [development
 board].
@@ -37,9 +39,7 @@ import Machine_GPIO
 using Machine_GPIO
 
 npd = Machine_GPIO.NPDGPIO()
-```
 
-```
 #blink LED
 remotecall_fetch(export_pin, npdProc[1], npd, npd.pin["PIN05"])
 
