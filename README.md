@@ -26,8 +26,24 @@ npd = Machine_GPIO.NPDGPIO()
 remotecall_fetch(Machine_GPIO.blinkLED, npdProc[1], npd, npd.pin["PIN05"])
 ```
 
-This example does the same thing as above, but each line is being sent from the master node to the slave node [development
-board].
+So, to make this work on the Raspberry Pi means changing very little code.
+
+```
+rpiProc = addprocs(["julia-user@NODE-RPI3"],dir="/home/julia-user/julia-0.6.0/bin/")
+
+include("Machine_GPIO.jl")
+
+import Machine_GPIO
+
+using Machine_GPIO
+
+rpi = Machine_GPIO.RPIGPIO()
+
+remotecall_fetch(Machine_GPIO.blinkLED, rpiProc[1], rpi, rpi.pin["PIN05"])
+```
+
+This is another blink LED example, but each line is being sent from the master node to the slave node [development
+board - back to the NanoPi Duo].
 
 ```
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
@@ -54,3 +70,5 @@ end
 
 remotecall_fetch(unexport_pin, npdProc[1], npd, npd.pin["PIN05"])
 ```
+
+
