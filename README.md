@@ -14,7 +14,7 @@ https://photos.app.goo.gl/0j8f1OwTQFWWTD052, https://photos.app.goo.gl/EI4JTKJqK
 The videos are a bit dated. I've streamlined the code quite a bit more.
 
 
-The main Julia file that I am using, now, is Machine_GPIO.jl. It keeps all of the code in one file.
+The main Julia file that I am using, now, is Machine_GPIO.jl. It keeps all of the code in one file. Machine_GPIO is a module that can be used on any of the nodes on the cluster. This is done via the Julia macro @everywhere. This macro basically takes the code and makes it available to any processes. Using GPIOs is now part of the Linux file system. So, Machine_GPIO just uses that fact that any of the development boards that are running Linux can take advantage of the sysfs GPIO (see http://elinux.org/GPIO). So, this idea should work for any development board that has GPIOs and is running some flavor of Linux. I am also running a 32-bit version of Julia on every node because it was the lowest common denominator and all versions of Julia on the cluster must be the same 32-bit or 64-bit version.
 
 Here's an example of using Julia to blink an LED on a remote development board. In this example, I have an LED attached
 to the NanoPi Duo board on pin 5. In this example, the whole function blink_LED is being done remotely on the development board.
