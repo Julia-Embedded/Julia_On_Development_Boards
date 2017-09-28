@@ -34,7 +34,7 @@ npd = Machine_GPIO.NPDGPIO()
 
 #do a remote call to NanoPi Duo node and start the blink_LED function 
 #passing it the npd instance and the pin we want to blink
-remotecall_fetch(Machine_GPIO.blinkLED, npdProc[1], npd, npd.pin["PIN05"])
+remotecall_fetch(Machine_GPIO.blinkLED, npdProc[1], npd, npd.digital_pin["PIN05"])
 ```
 
 So, to make this work on the Raspberry Pi means changing very little code.
@@ -54,7 +54,7 @@ rpi = Machine_GPIO.RPIGPIO()
 
 #do a remote call to Raspberry Pi node and start the blink_LED function 
 #passing it the rpi instance and the pin we want to blink
-remotecall_fetch(Machine_GPIO.blinkLED, rpiProc[1], rpi, rpi.pin["PIN05"])
+remotecall_fetch(Machine_GPIO.blinkLED, rpiProc[1], rpi, rpi.digital_pin["PIN05"])
 ```
 
 And, here is the same code with little change blinking an LED on the Beaglebone Black (note - we needed to use
@@ -75,7 +75,7 @@ bbb = Machine_GPIO.BBBGPIO()
 
 #do a remote call to Beaglebone Black node and start the blink_LED function 
 #passing it the bbb instance and the pin we want to blink
-remotecall_fetch(Machine_GPIO.blinkLED, bbbProc[1], bbb, bbb.pin["P9_PIN15"])
+remotecall_fetch(Machine_GPIO.blinkLED, bbbProc[1], bbb, bbb.digital_pin["P9_PIN15"])
 ```
 
 This is another blink LED example, but each line is being sent from the master node to the slave node [development
@@ -93,18 +93,18 @@ using Machine_GPIO
 npd = Machine_GPIO.NPDGPIO()
 
 #blink LED
-remotecall_fetch(export_pin, npdProc[1], npd, npd.pin["PIN05"])
+remotecall_fetch(export_pin, npdProc[1], npd, npd.digital_pin["PIN05"])
 
-remotecall_fetch(setdirection_pin, npdProc[1], npd, npd.pin["PIN05"], Machine_GPIO.OUT)
+remotecall_fetch(setdirection_pin, npdProc[1], npd, npd.digital_pin["PIN05"], Machine_GPIO.constants["OUT"])
 
 for n = 1:10
-	remotecall_fetch(setvalue_pin, npdProc[1], npd, npd.pin["PIN05"], Machine_GPIO.HIGH)
+	remotecall_fetch(setvalue_pin, npdProc[1], npd, npd.digital_pin["PIN05"], Machine_GPIO.constants["HIGH"])
 	sleep(.5)
-	remotecall_fetch(setvalue_pin, npdProc[1], npd, npd.pin["PIN05"], Machine_GPIO.LOW)
+	remotecall_fetch(setvalue_pin, npdProc[1], npd, npd.digital_pin["PIN05"], Machine_GPIOconstants["LOW"])
 	sleep(.5)
 end
 
-remotecall_fetch(unexport_pin, npdProc[1], npd, npd.pin["PIN05"])
+remotecall_fetch(unexport_pin, npdProc[1], npd, npd.digital_pin["PIN05"])
 ```
 
 
