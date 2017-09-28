@@ -38,23 +38,10 @@ end
 #Raspberry Pi
 #
 #To use PWM on Raspbery Pi see 
-#http://www.jumpnowtek.com/rpi/Using-the-Raspberry-Pi-Hardware-PWM-timers.html
 #
-#Permissions to use pwm must be set up so a non-root user can use the pwm routines.
-#
-#sudo nano /etc/udev/rules.d/99-gpio.rules
-#
-#add these lines:
-#
-#SUBSYSTEM=="pwm*", PROGRAM="/bin/sh -c '\
-#        chown -R root:gpio /sys/class/pwm && chmod -R 770 /sys/class/pwm;\
-#        chown -R root:gpio /sys/devices/platform/soc/*.pwm/pwm/pwmchip* && chmod -R 770 /sys/devices/platform/soc/*.pwm/pwm/pwmchip*\
-#'"
-#
-#
-#After this we need to reboot in order for the changes to take place.
-#
-#sudo reboot
+#We are using WiringPi's gpio command line feature (see: http://wiringpi.com/).
+#It comes preinstalled on the latest versions of Raspbian and works without
+#needing root permissions.
 #
 #*************************************************************************************************
 type RPIGPIO <: MachineGPIO
