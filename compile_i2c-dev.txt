@@ -1,0 +1,2 @@
+sudo gcc -c -Wall -fPIC i2c-dev.c
+sudo gcc -shared -o libi2c-dev.so i2c-dev.o
