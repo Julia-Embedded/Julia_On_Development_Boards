@@ -1,0 +1,24 @@
+<machine_information>
+	<machine name="UDOO X86" node="julia-user@NODE-UDOOX86" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+		<pins category="digital">
+				<!--Braswell - left pins (outside) -->
+				<CN12_PIN46>330</CN12_PIN46>
+				<CN12_PIN45>333</CN12_PIN45>
+				<CN12_PIN44>336</CN12_PIN44>
+				<CN12_PIN43>329</CN12_PIN43>
+				<CN12_PIN42>332</CN12_PIN42>
+				<CN12_PIN41>326</CN12_PIN41>
+				<CN12_PIN40>408</CN12_PIN40>
+				<CN14_PIN37>497</CN14_PIN37>
+				<CN14_PIN36>499</CN14_PIN36>
+				<!--Braswell - right pins (outside) -->
+				<CN13_PIN30>466</CN13_PIN30>
+				<CN13_PIN29>350</CN13_PIN29>
+				<CN13_PIN28>347</CN13_PIN28>
+				<CN13_PIN27>349</CN13_PIN27>
+				<CN13_PIN26>344</CN13_PIN26>
+				<CN13_PIN25>451</CN13_PIN25>
+				<CN13_PIN24>346</CN13_PIN24>
+		</pins>
+	</machine>
+</machine_information>

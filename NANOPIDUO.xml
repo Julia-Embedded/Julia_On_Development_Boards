@@ -1,0 +1,22 @@
+<machine_information>
+	<machine name="NanoPi Duo" node="julia-user@NODE-NANOPIDUO" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+		<pins category="digital">
+			<!-- left side -->
+			<PIN03>12</PIN03>
+			<PIN05>11</PIN05>
+			<PIN11>15</PIN11>
+			<PIN13>16</PIN13>
+			<PIN15>14</PIN15>
+			<!--right side -->
+			<PIN12>11</PIN12>
+			<PIN16>13</PIN16>
+		</pins>
+		<pins category="pwm">
+			<DBG_RX>5</DBG_RX>
+		</pins>
+		<pins category="i2c">
+			<I2C0_SDA>3</I2C0_SDA>
+			<I2C0_SCL>5</I2C0_SCL>
+		</pins>
+	</machine>
+</machine_information>

@@ -1,0 +1,90 @@
+<machine_information>
+	<machine name="Beaglebone Black" node="julia-user@NODE-BBB" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+		<pins category="digital">
+				<!--P9 - left pins -->
+				<P9_PIN11>30</P9_PIN11>
+				<P9_PIN13>31</P9_PIN13>
+				<P9_PIN15>48</P9_PIN15>
+				<P9_PIN17>04</P9_PIN17>
+				<P9_PIN21>03</P9_PIN21>
+				<P9_PIN23>49</P9_PIN23>
+				<P9_PIN25>117</P9_PIN25>
+				<P9_PIN27>125</P9_PIN27>
+				<P9_PIN29>121</P9_PIN29>
+				<P9_PIN31>120</P9_PIN31>
+				<P9_PIN41>20</P9_PIN41>				
+				<!--P9 - right pins -->
+				<P9_PIN12>60</P9_PIN12>
+				<P9_PIN14>0</P9_PIN14>		<!--PWM1A -->
+				<P9_PIN16>1</P9_PIN16>		<!--PWM1B -->
+				<P9_PIN18>05</P9_PIN18>
+				<P9_PIN22>02</P9_PIN22>
+				<P9_PIN24>15</P9_PIN24>
+				<P9_PIN26>14</P9_PIN26>
+				<P9_PIN30>122</P9_PIN30>
+				<P9_PIN42>07</P9_PIN42>
+				<!--P8 - left pins -->
+				<P8_PIN03>38</P8_PIN03>
+				<P8_PIN05>34</P8_PIN05>
+				<P8_PIN07>66</P8_PIN07>
+				<P8_PIN09>69</P8_PIN09>
+				<P8_PIN11>45</P8_PIN11>
+				<P8_PIN13>23</P8_PIN13>
+				<P8_PIN15>47</P8_PIN15>
+				<P8_PIN17>27</P8_PIN17>
+				<P8_PIN19>22</P8_PIN19>
+				<P8_PIN21>62</P8_PIN21>
+				<P8_PIN23>36</P8_PIN23>
+				<P8_PIN25>32</P8_PIN25>
+				<P8_PIN27>86</P8_PIN27>
+				<P8_PIN29>87</P8_PIN29>
+				<P8_PIN31>10</P8_PIN31>
+				<P8_PIN33>09</P8_PIN33>
+				<P8_PIN35>08</P8_PIN35>
+				<P8_PIN37>78</P8_PIN37>
+				<P8_PIN39>76</P8_PIN39>
+				<P8_PIN41>74</P8_PIN41>
+				<P8_PIN43>72</P8_PIN43>
+				<P8_PIN45>70</P8_PIN45>
+				<!--P8 - right pins -->
+				<P8_PIN04>39</P8_PIN04>
+				<P8_PIN06>35</P8_PIN06>
+				<P8_PIN08>67</P8_PIN08>
+				<P8_PIN10>68</P8_PIN10>
+				<P8_PIN12>44</P8_PIN12>
+				<P8_PIN14>26</P8_PIN14>
+				<P8_PIN16>46</P8_PIN16>
+				<P8_PIN18>65</P8_PIN18>
+				<P8_PIN20>63</P8_PIN20>
+				<P8_PIN22>37</P8_PIN22>
+				<P8_PIN24>33</P8_PIN24>
+				<P8_PIN26>61</P8_PIN26>
+				<P8_PIN28>88</P8_PIN28>
+				<P8_PIN30>89</P8_PIN30>
+				<P8_PIN32>11</P8_PIN32>
+				<P8_PIN34>81</P8_PIN34>
+				<P8_PIN36>80</P8_PIN36>
+				<P8_PIN38>79</P8_PIN38>
+				<P8_PIN40>77</P8_PIN40>
+				<P8_PIN42>75</P8_PIN42>
+				<P8_PIN44>73</P8_PIN44>
+				<P8_PIN46>71</P8_PIN46>
+		</pins>
+		<pins category="analog">
+				<!--P9 - left side -->
+				<P9_PIN33>4</P9_PIN33>
+				<P9_PIN35>6</P9_PIN35>
+				<P9_PIN37>2</P9_PIN37>
+				<P9_PIN39>0</P9_PIN39>
+				<!--P9 - right side -->
+				<P9_PIN36>5</P9_PIN36>
+				<P9_PIN38>3</P9_PIN38>
+				<P9_PIN40>1</P9_PIN40>
+		</pins>
+		<pins category="pwm">
+				<!--P9 - right side -->
+				<P9_PIN14>0</P9_PIN14>
+				<P9_PIN16>1</P9_PIN16>
+		</pins>
+	</machine>
+</machine_information>

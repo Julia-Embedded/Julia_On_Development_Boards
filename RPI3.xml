@@ -1,0 +1,42 @@
+<machine_information>
+	<machine name="Raspberry Pi" node="julia-user@NODE-RPI3" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+		<pins category="digital">
+			<!--left pins (left) -->
+			<PIN03>2</PIN03>
+			<PIN05>3</PIN05>
+			<PIN07>4</PIN07>
+			<PIN11>17</PIN11>
+			<PIN13>27</PIN13>
+			<PIN15>22</PIN15>
+			<PIN19>10</PIN19>
+			<PIN21>9</PIN21>
+			<PIN23>11</PIN23>
+			<!--left pins (right) -->
+			<PIN29>5</PIN29>
+			<PIN31>6</PIN31>
+			<PIN33>13</PIN33>
+			<PIN35>19</PIN35>
+			<PIN37>26</PIN37>
+			<!--right pins (left) -->
+			<PIN08>14</PIN08>
+			<PIN10>15</PIN10>
+			<PIN12>18</PIN12>
+			<PIN16>23</PIN16>
+			<PIN18>24</PIN18>
+			<PIN22>25</PIN22>
+			<PIN24>8</PIN24>
+			<PIN26>7</PIN26>
+			<!--right pins (right) -->
+			<PIN32>12</PIN32>
+			<PIN36>16</PIN36>
+			<PIN38>20</PIN38>
+			<PIN40>21</PIN40>
+		</pins>
+		<pins category="pwm">
+			<!--left pins -->
+			<PIN18>18</PIN18>
+			<!--right pins -->
+			<PIN19>19</PIN19>
+		</pins>
+	</machine>
+</machine_information>
