@@ -1,5 +1,7 @@
 module GPIO_U86
 
+export checking_mic_sensor_on_arduino
+
 include("Machine_Consts.jl")
 include("GPIO_Common.jl")
 

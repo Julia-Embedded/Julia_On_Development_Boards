@@ -1,7 +1,12 @@
 module GPIO_RPI
 
+export export_pwm_pin, unexport_pwm_pin, setduty_cycle_pwm_pin,
+		setmode_pwm, setclock_pwm, setrange_pwm, test_pwm
+
 include("Machine_Consts.jl")
 include("GPIO_Common.jl")
+
+
 
 #*************************************************************************************************
 #

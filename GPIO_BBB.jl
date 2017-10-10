@@ -1,5 +1,9 @@
 module GPIO_BBB
 
+export export_pwm_pin, unexport_pwm_pin, setpolarity_pwm_pin,
+		setperiod_pwm_pin, setduty_cycle_pwm_pin, setenable_pwm_pin,
+		checking_light_sensor
+
 include("Machine_Consts.jl")
 include("GPIO_Common.jl")
 
