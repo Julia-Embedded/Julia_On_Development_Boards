@@ -23,18 +23,21 @@ to the NanoPi Duo board on pin 5. In this example, the whole function blink_LED 
 #Connect to the NanoPi Duo node
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("Machine_GPIO.jl")
+include("GPIO_NPD.jl")
 
-import Machine_GPIO
-
-using Machine_GPIO
+import GPIO_NPD
+using GPIO_NPD
 
 #make an instance of the NPDGPIO object.
-npd = Machine_GPIO.NPDGPIO()
+npd = GPIO_NPD.NPDGPIO()
+
+initialize(npd, "NANOPIDUO.xml")
+
+LEDPin = npd.digital_pin["PIN12"]
 
 #do a remote call to NanoPi Duo node and start the blink_LED function 
 #passing it the npd instance and the pin we want to blink
-remotecall_fetch(Machine_GPIO.blinkLED, npdProc[1], npd, npd.digital_pin["PIN05"])
+remotecall_fetch(GPIO_Common.blinkLED, npdProc[1], LEDPin)
 ```
 
 So, to make this work on the Raspberry Pi means changing very little code.
@@ -43,18 +46,21 @@ So, to make this work on the Raspberry Pi means changing very little code.
 #Connect to the Raspberry Pi node
 rpiProc = addprocs(["julia-user@NODE-RPI3"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("Machine_GPIO.jl")
+include("GPIO_RPI.jl")
 
-import Machine_GPIO
-
-using Machine_GPIO
+import GPIO_RPI
+using GPIO_RPI
 
 #make an instance of the RPIGPIO object.
-rpi = Machine_GPIO.RPIGPIO()
+rpi = GPIO_RPI.RPIGPIO()
+
+initialize(rpi, "RPI3.xml")
+
+LEDPin = rpi.digital_pin["PIN07"]
 
 #do a remote call to Raspberry Pi node and start the blink_LED function 
 #passing it the rpi instance and the pin we want to blink
-remotecall_fetch(Machine_GPIO.blinkLED, rpiProc[1], rpi, rpi.digital_pin["PIN05"])
+remotecall_fetch(GPIO_Common.blinkLED, rpiProc[1], LEDPin)
 ```
 
 And, here is the same code with little change blinking an LED on the Beaglebone Black (note - we needed to use
@@ -64,47 +70,23 @@ a different pin).
 #Connect to the Beaglebone Black node
 bbbProc = addprocs(["julia-user@NODE-BBB"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("Machine_GPIO.jl")
+include("GPIO_BBB.jl")
 
-import Machine_GPIO
-
-using Machine_GPIO
+import GPIO_BBB
+using GPIO_BBB
 
 #make an instance of the BBBGPIO object.
-bbb = Machine_GPIO.BBBGPIO()
+bbb = GPIO_BBB.BBBGPIO()
+
+initialize(bbb, "BBB.xml")
+
+LEDPin = bbb.digital_pin["P9_PIN12"]
 
 #do a remote call to Beaglebone Black node and start the blink_LED function 
 #passing it the bbb instance and the pin we want to blink
-remotecall_fetch(Machine_GPIO.blinkLED, bbbProc[1], bbb, bbb.digital_pin["P9_PIN15"])
+remotecall_fetch(GPIO_Common.blinkLED, bbbProc[1], LEDPin)
 ```
 
-This is another blink LED example, but each line is being sent from the master node to the slave node [development
-board - back to the NanoPi Duo].
 
-```
-npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
-
-include("Machine_GPIO.jl")
-
-import Machine_GPIO
-
-using Machine_GPIO
-
-npd = Machine_GPIO.NPDGPIO()
-
-#blink LED
-remotecall_fetch(export_pin, npdProc[1], npd, npd.digital_pin["PIN05"])
-
-remotecall_fetch(setdirection_pin, npdProc[1], npd, npd.digital_pin["PIN05"], Machine_GPIO.constants["OUT"])
-
-for n = 1:10
-	remotecall_fetch(setvalue_pin, npdProc[1], npd, npd.digital_pin["PIN05"], Machine_GPIO.constants["HIGH"])
-	sleep(.5)
-	remotecall_fetch(setvalue_pin, npdProc[1], npd, npd.digital_pin["PIN05"], Machine_GPIOconstants["LOW"])
-	sleep(.5)
-end
-
-remotecall_fetch(unexport_pin, npdProc[1], npd, npd.digital_pin["PIN05"])
-```
 
 
