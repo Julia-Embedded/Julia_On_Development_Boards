@@ -1,5 +1,5 @@
 <machine_information>
-	<machine name="UDOO X86" node="julia-user@NODE-UDOOX86" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+	<machine id="u86" name="UDOO X86" node="julia-user@NODE-UDOOX86" julia-bin="/home/julia-user/julia-0.6.0/bin/">
 		<pins category="digital">
 				<!--Braswell - left pins (outside) -->
 				<CN12_PIN46>330</CN12_PIN46>

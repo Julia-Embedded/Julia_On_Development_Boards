@@ -1,5 +1,5 @@
 <machine_information>
-	<machine name="NanoPi Duo" node="julia-user@NODE-NANOPIDUO" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+	<machine id="npd" name="NanoPi Duo" node="julia-user@NODE-NANOPIDUO" julia-bin="/home/julia-user/julia-0.6.0/bin/">
 		<pins category="digital">
 			<!-- left side -->
 			<PIN03>12</PIN03>

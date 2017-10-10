@@ -17,6 +17,8 @@ const	constants = Dict{String, Any}(
 
 export export_pin, unexport_pin, setdirection_pin, 
 		getvalue_pin, setvalue_pin, setMode, digitalRead, digitalWrite,
+		export_pwm_pin, unexport_pwm_pin, setduty_cycle_pwm_pin,
+		setmode_pwm, setclock_pwm, setrange_pwm, 
 		blinkLED
 
 function export_pin(pin::Int)
@@ -90,6 +92,104 @@ function i2c_write(addr::Int, buf)
     return buf
 end
 
+function export_pwm_pin(id::String, pin::Int)
+	if (id == "bbb")
+		setval_str = "/sys/class/pwm/pwmchip0/export"
+		f = open(setval_str, "w")
+		write(f, string(pin)) 
+		close(f)
+	end
+	if (id == "rpi3" || id == "npd")
+		temp = string(pin)
+		str = `gpio -g mode $temp pwm`
+		run(str)
+	end
+end
+
+function unexport_pwm_pin(id::String, pin::Int)
+	if (id == "bbb")
+		setval_str = "/sys/class/pwm/pwmchip0/unexport"
+		f = open(setval_str, "w")
+		write(f, string(pin)) 
+		close(f)
+	end
+	if (id == "rpi3" || id == "npd")
+		temp = string(pin)
+		str = `gpio unexport $temp`
+		run(str)
+	end
+end
+
+
+function setpolarity_pwm_pin(id::String, pin::Int, polarity::Int)
+	if (id == "bbb")
+		setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/polarity"
+		f = open(setval_str, "w")
+		write(f, polarity) 
+		close(f)
+	end
+	if (id == "rpi3" || id == "npd")
+	
+	end
+end
+
+function setperiod_pwm_pin(id::String, pin::Int, period::Int)
+	if (id == "bbb")
+		setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/period"
+		f = open(setval_str, "w")
+		write(f, period) 
+		close(f)
+	end
+	if (id == "rpi3" || id == "npd")
+	
+	end
+end
+
+function setduty_cycle_pwm_pin(id::String, pin::Int, duty_cycle::Int)
+	if (id == "bbb")
+		setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/duty_cycle"
+		f = open(setval_str, "w")
+		write(f, string(duty_cycle)) 
+		close(f)
+	end
+	if (id == "rpi3" || id == "npd")
+		temp1 = string(pin)
+		temp2 = string(duty_cycle)
+		str = `gpio -g pwm $temp1 $temp2`
+		run(str)
+	end
+end
+
+function setenable_pwm_pin(id::String, pin::Int, enable::Int)
+	setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/enable"
+	f = open(setval_str, "w")
+    write(f, string(enable)) 
+	close(f)
+	if (id == "rpi3" || id == "npd")
+	
+	end
+end
+
+function setmode_pwm(id::String, mode::String) 
+	if (id == "rpi3" || id == "npd")
+		run(`gpio $mode`)
+	end
+end
+
+function setclock_pwm(id::String, range::Int) 
+	if (id == "rpi3" || id == "npd")
+		temp = string(range)
+		run(`gpio pwmc $range`)
+	end
+end
+
+function setrange_pwm(id::String, range::Int) 
+	if (id == "rpi3" || id == "npd")
+		temp = string(range)
+		run(`gpio pwmr $range`)
+	end
+end
+
 function blinkLED(pinLED::Int)
 
 	export_pin(pinLED)
@@ -109,5 +209,6 @@ function blinkLED(pinLED::Int)
 
 	unexport_pin(pinLED)
 end	
+
 
 end

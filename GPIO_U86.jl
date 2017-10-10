@@ -2,7 +2,7 @@ module GPIO_U86
 
 export checking_mic_sensor_on_arduino
 
-include("Machine_Consts.jl")
+include("GPIO_Consts.jl")
 include("GPIO_Common.jl")
 
 
@@ -17,13 +17,14 @@ include("GPIO_Common.jl")
 #input voltage different from 1.8V use a bidirectional level shifter. 
 
 type U86GPIO <: MachineGPIO
+	id::String
     name::String
     handle::Int
     node::String
     path::String
     digital_pin::Dict{String, Int}
     function U86GPIO()
-		new("", 0, "", "", Dict())
+		new("", "", 0, "", "", Dict())
 	end
 end
 

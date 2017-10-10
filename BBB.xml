@@ -1,5 +1,5 @@
 <machine_information>
-	<machine name="Beaglebone Black" node="julia-user@NODE-BBB" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+	<machine id="bbb" name="Beaglebone Black" node="julia-user@NODE-BBB" julia-bin="/home/julia-user/julia-0.6.0/bin/">
 		<pins category="digital">
 				<!--P9 - left pins -->
 				<P9_PIN11>30</P9_PIN11>

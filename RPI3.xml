@@ -1,5 +1,5 @@
 <machine_information>
-	<machine name="Raspberry Pi" node="julia-user@NODE-RPI3" julia-bin="/home/julia-user/julia-0.6.0/bin/">
+	<machine id="rpi3" name="Raspberry Pi" node="julia-user@NODE-RPI3" julia-bin="/home/julia-user/julia-0.6.0/bin/">
 		<pins category="digital">
 			<!--left pins (left) -->
 			<PIN03>2</PIN03>

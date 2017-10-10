@@ -1,10 +1,8 @@
 module GPIO_BBB
 
-export export_pwm_pin, unexport_pwm_pin, setpolarity_pwm_pin,
-		setperiod_pwm_pin, setduty_cycle_pwm_pin, setenable_pwm_pin,
-		checking_light_sensor
+export checking_light_sensor
 
-include("Machine_Consts.jl")
+include("GPIO_Consts.jl")
 include("GPIO_Common.jl")
 
 #*************************************************************************************************
@@ -46,6 +44,7 @@ include("GPIO_Common.jl")
 #
 
 type BBBGPIO <: MachineGPIO
+	id::String
     name::String
     handle::Int
     node::String
@@ -54,7 +53,7 @@ type BBBGPIO <: MachineGPIO
     analog_pin::Dict{String, Int}
     pwm_pin::Dict{String, Int}
     function BBBGPIO()
-		new("", 0, "", "", Dict(), Dict(), Dict())
+		new("", "", 0, "", "", Dict(), Dict(), Dict())
 		
 	end
 end
@@ -76,48 +75,7 @@ function getvalue_analog_pin(gpio::BBBGPIO, pin::Int)
 	end
 end
 
-function export_pwm_pin(pin::Int)
-	setval_str = "/sys/class/pwm/pwmchip0/export"
-	f = open(setval_str, "w")
-    write(f, string(pin)) 
-	close(f)
-end
 
-function unexport_pwm_pin(pin::Int)
-	setval_str = "/sys/class/pwm/pwmchip0/unexport"
-	f = open(setval_str, "w")
-    write(f, string(pin)) 
-	close(f)
-end
-
-
-function setpolarity_pwm_pin(pin::Int, polarity::Int)
-	setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/polarity"
-	f = open(setval_str, "w")
-    write(f, polarity) 
-	close(f)
-end
-
-function setperiod_pwm_pin(pin::Int, period::Int)
-	setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/period"
-	f = open(setval_str, "w")
-    write(f, period) 
-	close(f)
-end
-
-function setduty_cycle_pwm_pin(pin::Int, duty_cycle::Int)
-	setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/duty_cycle"
-	f = open(setval_str, "w")
-    write(f, string(duty_cycle)) 
-	close(f)
-end
-
-function setenable_pwm_pin(pin::Int, enable::Int)
-	setval_str = "/sys/class/pwm/pwmchip0/pwm" * string(pin) * "/enable"
-	f = open(setval_str, "w")
-    write(f, string(enable)) 
-	close(f)
-end
 
 
 function checking_light_sensor(pinLED::Int, pinSensor::Int)

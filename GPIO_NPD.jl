@@ -1,10 +1,12 @@
 module GPIO_NPD
 
-export export_pwm_pin, unexport_pwm_pin, setduty_cycle_pwm_pin,
-		setmode_pwm, setclock_pwm, setrange_pwm, test_pwm
-
-include("Machine_Consts.jl")
+include("GPIO_Consts.jl")
 include("GPIO_Common.jl")
+
+export export_pin, unexport_pin, setdirection_pin, 
+		getvalue_pin, setvalue_pin, setMode, digitalRead, digitalWrite,
+		export_pwm_pin, unexport_pwm_pin, setduty_cycle_pwm_pin,
+		setmode_pwm, setclock_pwm, setrange_pwm, test_pwm
 
 #*************************************************************************************************
 #
@@ -49,6 +51,7 @@ include("GPIO_Common.jl")
 #
 #sudo reboot
 type NPDGPIO <: MachineGPIO
+	id::String
     name::String
     handle::Int
     node::String
@@ -57,44 +60,12 @@ type NPDGPIO <: MachineGPIO
     pwm_pin::Dict{String, Int}
     i2c_pin::Dict{String, Int}
     function NPDGPIO()
-			new("", 0, "", "", Dict(), Dict(), Dict())
+			new("", "", 0, "", "", Dict(), Dict(), Dict())
 	end
 end
 
-function export_pwm_pin(pin::Int)
-	temp = string(pin)
-	str = `gpio -g mode $temp pwm`
-	run(str)
-end
 
-function unexport_pwm_pin(pin::Int)
-	temp = string(pin)
-	str = `gpio unexport $temp`
-	run(str)
-end
-
-function setduty_cycle_pwm_pin(pin::Int, duty_cycle::Int)
-	temp1 = string(pin)
-	temp2 = string(duty_cycle)
-	str = `gpio -g pwm $temp1 $temp2`
-	run(str)
-end
-
-function setmode_pwm(mode::String) 
-	run(`gpio $mode`)
-end
-
-function setclock_pwm(range::Int) 
-	temp = string(range)
-	run(`gpio pwmc $range`)
-end
-
-function setrange_pwm(range::Int) 
-	temp = string(range)
-	run(`gpio pwmr $range`)
-end
-
-function test_pwm(gpio::MachineGPIO)
+@everywhere function test_pwm(id::String, pin::Int)
 	#Pin RX on the Debug UART has PWM output, but you have to set it to be the right 
 	#frequency output. Servo's want 50 Hz frequency output.
 	#
@@ -104,31 +75,30 @@ function test_pwm(gpio::MachineGPIO)
 	#If pwmClock is 240 and pwmRange is 2000 we'll get the PWM frequency = 50 Hz 
 	#
 
-	npd = gpio
 
 	#Set pin 5 (Debug RX) to be a PWM output
-	export_pwm_pin(npd.pwm_pin["DBG_RX"])
+	GPIO_Common.export_pwm_pin(id, pin)
 
 	#Set the PWM to mark-space
-	setmode_pwm(GPIO_Common.constants["PWM_MODE"]["MARK-SPACE"])
+	GPIO_Common.setmode_pwm(id, GPIO_Common.constants["PWM_MODE"]["MARK-SPACE"])
 
 	#set PWM clock to 240
-	setclock_pwm(240)
+	GPIO_Common.setclock_pwm(id, 240)
 
 	#set PWM range to 2000
-	setrange_pwm(2000)
+	GPIO_Common.setrange_pwm(id, 2000)
 
 	#Now you can set the servo to all the way 
 	#to the left (1.0 milliseconds) with
-	setduty_cycle_pwm_pin(npd.pwm_pin["DBG_RX"], 100)
+	GPIO_Common.setduty_cycle_pwm_pin(id, pin, 100)
 	sleep(1)
 
 	#Set the servo to the middle (1.5 ms) with
-	setduty_cycle_pwm_pin(npd.pwm_pin["DBG_RX"], 150)
+	GPIO_Common.setduty_cycle_pwm_pin(id, pin, 150)
 	sleep(1)
 
 	#And all the way to the right (2.0ms) with
-	setduty_cycle_pwm_pin(npd.pwm_pin["DBG_RX"], 250)
+	GPIO_Common.setduty_cycle_pwm_pin(id, pin, 250)
 	sleep(1)
 
 	#Servos often 'respond' to a wider range than 1.0-2.0 milliseconds 
@@ -137,8 +107,7 @@ function test_pwm(gpio::MachineGPIO)
 	#Of course you can try any number between 50 and 250! 
 	#so you get a range of about 200 positions
 
-	unexport_pwm_pin(npd.pwm_pin["DBG_RX"])
+	GPIO_Common.unexport_pwm_pin(id, pin)
 end
-
 
 end
