@@ -14,7 +14,9 @@ https://photos.app.goo.gl/0j8f1OwTQFWWTD052, https://photos.app.goo.gl/EI4JTKJqK
 The videos are a bit dated. I've streamlined the code quite a bit more.
 
 
-Each board uses the module file GPIO_Device.jl. There is also a module called GPIO_Common.jl, which contains routines that can easily be used for any board. This GPIO_Common module uses Julia @everywhere macro and this macro allows the routines to be used on any node on the cluster. Using GPIOs is now part of the Linux file system. So, GPIO_Common just uses that fact that any of the development boards that are running Linux can take advantage of the sysfs GPIO (see http://elinux.org/GPIO). So, this idea should work for any development board that has GPIOs and is running some flavor of Linux. I am also running a 32-bit version of Julia on every node because it was the lowest common denominator and all versions of Julia on the cluster must be the same 32-bit or 64-bit version. Each board also has a corresponding .xml file. This allows the user to define pins and other things with regards to that particular board. You will see the use of the .xml files in the examples below. The .xml files allows an instance object to be initialised with values from the .xml file.
+Each board uses the module file GPIO_Device.jl. Each board also has a corresponding .xml file. This allows the user to define pins and other things with regards to that particular board. You will see the use of the .xml files in the examples below. The .xml files allows an instance object of type DeviceGPIO to be initialised with values from the .xml file. There is also a module called GPIO_Common.jl, which contains routines that can easily be used for any board. This GPIO_Common module uses Julia @everywhere macro and this macro allows the routines to be used on any node on the cluster. Using GPIOs is now part of the Linux file system. So, GPIO_Common just uses that fact that any of the development boards that are running Linux can take advantage of the sysfs GPIO (see http://elinux.org/GPIO). 
+
+So, this idea should work for any development board that has GPIOs and is running some flavor of Linux. I am also running a 32-bit version of Julia on every node because it was the lowest common denominator and all versions of Julia on the cluster must be the same 32-bit or 64-bit version. 
 
 Here's an example of using Julia to blink an LED on a remote development board. In this example, I have an LED attached
 to the NanoPi Duo board on pin 5. In this example, the whole function blink_LED is being done remotely on the development board. The "blinkLED" routine can be found in GPIO_Common.jl.
@@ -28,7 +30,7 @@ include("GPIO_Device.jl")
 import GPIO_Device
 using GPIO_Device
 
-#make an instance of the NPDGPIO object.
+#make an instance of the DeviceGPIO object.
 npd = GPIO_Device.DeviceGPIO()
 
 initialize(npd, "NANOPIDUO.xml")
@@ -51,7 +53,7 @@ include("GPIO_Device.jl")
 import GPIO_Device
 using GPIO_Device
 
-#make an instance of the RPIGPIO object.
+#make an instance of the DeviceGPIO object.
 rpi = GPIO_Device.DeviceGPIO()
 
 initialize(rpi, "RPI3.xml")
@@ -75,7 +77,7 @@ include("GPIO_Device.jl")
 import GPIO_Device
 using GPIO_Device
 
-#make an instance of the BBBGPIO object.
+#make an instance of the DeviceGPIO object.
 bbb = GPIO_Device.DeviceGPIO()
 
 initialize(bbb, "BBB.xml")
@@ -87,7 +89,7 @@ LEDPin = bbb.digital_pin["P9_PIN12"]
 remotecall_fetch(GPIO_Common.blinkLED, bbbProc[1], LEDPin)
 ```
 
-Here's an example of doing pulse width modulation on the NanoPi Duo. Notice, that I pass a MachineID to the remote function call (along with the pwm pin). The pwm routines work differently on the Raspberry Pi and NanoPi (for the moment) than they do on the Beaglebone Black. They should all use the sysfs, but both Pis have fixes that need to be made for PWM to work from user space. So, the MachineID helps to determine how the pwm calls should be processed (sysfs on the BBB or WiringPI's GPIO utility on the Pis). You can find the "test_pwm" routine in the GPIO_NPD.jl file.
+Here's an example of doing pulse width modulation on the NanoPi Duo. Notice, that I pass a MachineID to the remote function call (along with the pwm pin). The pwm routines work differently on the Raspberry Pi and NanoPi (for the moment) than they do on the Beaglebone Black. They should all use the sysfs, but both Pis have fixes that need to be made for PWM to work from user space. So, the MachineID helps to determine how the pwm calls should be processed (sysfs on the BBB or WiringPI's GPIO utility on the Pis). You can find the "test_pwm" routine in the GPIO_Common.jl file.
 
 ```
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
