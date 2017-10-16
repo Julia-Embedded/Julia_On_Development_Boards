@@ -23,13 +23,13 @@ to the NanoPi Duo board on pin 5. In this example, the whole function blink_LED 
 #Connect to the NanoPi Duo node
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_NPD.jl")
+include("GPIO_Device.jl")
 
-import GPIO_NPD
-using GPIO_NPD
+import GPIO_Device
+using GPIO_Device
 
 #make an instance of the NPDGPIO object.
-npd = GPIO_NPD.NPDGPIO()
+npd = GPIO_Device.DeviceGPIO()
 
 initialize(npd, "NANOPIDUO.xml")
 
@@ -46,13 +46,13 @@ So, to make this work on the Raspberry Pi means changing very little code.
 #Connect to the Raspberry Pi node
 rpiProc = addprocs(["julia-user@NODE-RPI3"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_RPI.jl")
+include("GPIO_Device.jl")
 
-import GPIO_RPI
-using GPIO_RPI
+import GPIO_Device
+using GPIO_Device
 
 #make an instance of the RPIGPIO object.
-rpi = GPIO_RPI.RPIGPIO()
+rpi = GPIO_Device.DeviceGPIO()
 
 initialize(rpi, "RPI3.xml")
 
@@ -70,13 +70,13 @@ a different pin).
 #Connect to the Beaglebone Black node
 bbbProc = addprocs(["julia-user@NODE-BBB"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_BBB.jl")
+include("GPIO_Device.jl")
 
-import GPIO_BBB
-using GPIO_BBB
+import GPIO_Device
+using GPIO_Device
 
 #make an instance of the BBBGPIO object.
-bbb = GPIO_BBB.BBBGPIO()
+bbb = GPIO_Device.DeviceGPIO()
 
 initialize(bbb, "BBB.xml")
 
@@ -92,13 +92,13 @@ Here's an example of doing pulse width modulation on the NanoPi Duo. Notice, tha
 ```
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_NPD.jl")
+include("GPIO_Device.jl")
 
-import GPIO_NPD
+import GPIO_Device
 
-using GPIO_NPD
+using GPIO_Device
 
-npd = GPIO_NPD.NPDGPIO()
+npd = GPIO_Device.DeviceGPIO()
 
 initialize(npd, "NANOPIDUO.xml")
 
