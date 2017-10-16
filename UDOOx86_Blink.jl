@@ -1,11 +1,11 @@
 u86Proc = addprocs(["julia-user@NODE-UDOOX86"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_U86.jl")
+include("GPIO_Device.jl")
 
-import GPIO_U86
-using GPIO_U86
+import GPIO_Device
+using GPIO_Device
 
-u86 = GPIO_U86.U86GPIO()
+u86 = GPIO_Device.DeviceGPIO()
 
 initialize(u86, "UDOOx86.xml")
 
