@@ -1,11 +1,11 @@
 npdProc = addprocs(["julia-user@NODE-NANOPIDUO"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_NPD.jl")
+include("GPIO_Device.jl")
 
-import GPIO_NPD
-using GPIO_NPD
+import GPIO_Device
+using GPIO_Device
 
-npd = GPIO_NPD.NPDGPIO()
+npd = GPIO_Device.DeviceGPIO()
 
 initialize(npd, "NANOPIDUO.xml")
 

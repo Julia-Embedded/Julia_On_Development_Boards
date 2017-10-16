@@ -1,11 +1,11 @@
 rpiProc = addprocs(["julia-user@NODE-RPI3"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_RPI.jl")
+include("GPIO_Device.jl")
 
-import GPIO_RPI
-using GPIO_RPI
+import GPIO_Device
+using GPIO_Device
 
-rpi = GPIO_RPI.RPIGPIO()
+rpi = GPIO_Device.DeviceGPIO()
 
 initialize(rpi, "RPI3.xml")
 

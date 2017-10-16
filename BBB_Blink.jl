@@ -1,11 +1,11 @@
 bbbProc = addprocs(["julia-user@NODE-BBB"],dir="/home/julia-user/julia-0.6.0/bin/")
 
-include("GPIO_BBB.jl")
+include("GPIO_Device.jl")
 
-import GPIO_BBB
-using GPIO_BBB
+import GPIO_Device
+using GPIO_Device
 
-bbb = GPIO_BBB.BBBGPIO()
+bbb = GPIO_Device.DeviceGPIO()
 
 initialize(bbb, "BBB.xml")
 
