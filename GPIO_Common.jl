@@ -210,5 +210,50 @@ function blinkLED(pinLED::Int)
 	unexport_pin(pinLED)
 end	
 
+function test_pwm(id::String, pin::Int)
+	#Pin RX on the Debug UART has PWM output, but you have to set it to be the right 
+	#frequency output. Servo's want 50 Hz frequency output.
+	#
+	#For the Nano Pi PWM module, the PWM Frequency in 
+	#Hz = 24,000,000 Hz / pwmClock / pwmRange
+	#
+	#If pwmClock is 240 and pwmRange is 2000 we'll get the PWM frequency = 50 Hz 
+	#
+
+
+	#Set pin 5 (Debug RX) to be a PWM output
+	export_pwm_pin(id, pin)
+
+	#Set the PWM to mark-space
+	setmode_pwm(id, constants["PWM_MODE"]["MARK-SPACE"])
+
+	#set PWM clock to 240
+	setclock_pwm(id, 240)
+
+	#set PWM range to 2000
+	setrange_pwm(id, 2000)
+
+	#Now you can set the servo to all the way 
+	#to the left (1.0 milliseconds) with
+	setduty_cycle_pwm_pin(id, pin, 100)
+	sleep(1)
+
+	#Set the servo to the middle (1.5 ms) with
+	setduty_cycle_pwm_pin(id, pin, 150)
+	sleep(1)
+
+	#And all the way to the right (2.0ms) with
+	setduty_cycle_pwm_pin(id, pin, 250)
+	sleep(1)
+
+	#Servos often 'respond' to a wider range than 1.0-2.0 milliseconds 
+	#so try it with ranges of 50 (0.5ms) to 250 (2.5ms)
+	#
+	#Of course you can try any number between 50 and 250! 
+	#so you get a range of about 200 positions
+
+	unexport_pwm_pin(id, pin)
+end
+
 
 end
