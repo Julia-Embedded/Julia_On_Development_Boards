@@ -64,6 +64,11 @@ function initialize(gpio::MachineGPIO, filename::String)
 						push!(gpio.i2c_devices, LightXML.content(p))
 					 end
 				end
+				if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "spi")
+					for p in collect(LightXML.child_elements(o))
+						push!(gpio.spi_devices, LightXML.content(p))
+					 end
+				end
 			end
 		end
 	end
