@@ -6,10 +6,10 @@ udooProc = addprocs(["julia-user@NODE-UDOOX86"],dir="/home/julia-user/julia-0.6.
 
 #These are routines written to manipulate the GPIO
 #via the file system on the development boards.
-include("Machine_GPIO.jl")
+include("Device_GPIO.jl")
 
 #I want to use these.
-import Machine_GPIO
+import Device_GPIO
 
 
 
@@ -21,10 +21,13 @@ bbb_process = true
 udoo_process = true
 process_return_value = ""
 
-rpi = Machine_GPIO.RPIGPIO("Raspberry Pi 2", rpiProc[1], "julia-user@NODE-RPI2", "/home/julia-user/julia-0.6.0/bin/")
-bbb = Machine_GPIO.BBBGPIO("Beaglebone Black", bbbProc[1], "julia-user@NODE-BBB","/home/julia-user/julia-0.6.0/bin/")
-u86 = Machine_GPIO.U86GPIO("Udoo x86", udooProc[1], "julia-user@NODE-UDOOX86", "/home/julia-user/julia-0.6.0/bin/")
+rpi = Device_GPIO.DeviceGPIO()
+bbb = Device_GPIO.DeviceGPIO()
+u86 = Device_GPIO.DeviceGPIO()
 
+initialize(rpi, "RPI3.xml")
+initialize(bbb, "BBB.xml")
+initialize(u86, "UDOOx86.xml")
 
 #This loop is sending out routines to the Raspberry Pi,
 #Beaglebone Black, and Udoo x86 boards.
@@ -32,17 +35,17 @@ u86 = Machine_GPIO.U86GPIO("Udoo x86", udooProc[1], "julia-user@NODE-UDOOX86", "
 #and then wait for it to get return value from the remotecall.
 while(true)
     if (rpi_process)
-        rpi_rc = remotecall(Machine_GPIO.checking_motion_sensor, rpi.handle, rpi, "17", "27")
+        rpi_rc = remotecall(GPIO_Common.checking_motion_sensor, rpi.handle, rpi, "17", "27")
         sleep(1)
         rpi_process = false
     end
     if (bbb_process)
-        bbb_rc = remotecall(Machine_GPIO.checking_light_sensor, bbb.handle, bbb, "60", "1")
+        bbb_rc = remotecall(GPIO_Common.checking_light_sensor, bbb.handle, bbb, "60", "1")
         sleep(1)
         bbb_process = false
     end
     if (udoo_process)
-        udoo_rc = remotecall(Machine_GPIO.checking_mic_sensor_on_arduino, u86.handle, u86, "366", "/dev/ttyACM1")
+        udoo_rc = remotecall(GPIO_Common.checking_mic_sensor_on_arduino, u86.handle, u86, "366", "/dev/ttyACM1")
         sleep(1)
         udoo_process = false
     end
@@ -62,9 +65,9 @@ while(true)
     #When the remotecall - Machine_GPIO.checking_motion_sensor gets a
     #return value - let us know by printing a message.
     if isready(rpi_rc)
-        remotecall_fetch(Machine_GPIO.setvalue_analog_to_serial, u86.handle, u86, "/dev/ttyACM2", "startplasma")
+        remotecall_fetch(GPIO_Common.setvalue_analog_to_serial, u86.handle, u86, "/dev/ttyACM2", "startplasma")
         sleep(2)
-        remotecall_fetch(Machine_GPIO.setvalue_analog_to_serial, u86.handle, u86, "/dev/ttyACM2", "endplasma")
+        remotecall_fetch(GPIO_Common.setvalue_analog_to_serial, u86.handle, u86, "/dev/ttyACM2", "endplasma")
         print("MOVEMENT DETECTED ON ")
         print(rpi.name)
         println(" SENSOR.")
