@@ -38,5 +38,11 @@
 			<!--right pins -->
 			<PIN19>19</PIN19>
 		</pins>
+		<device category="i2c">
+			<name>/dev/i2c-1</name>
+		</device>
+		<device category="spi">
+			<name></name>
+		</device>
 	</machine>
 </machine_information>

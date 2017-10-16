@@ -36,26 +36,35 @@ function initialize(gpio::MachineGPIO, filename::String)
 	
 	for n in machine
 		for o in LightXML.child_elements(n)
-			if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "digital")
-				for p in collect(LightXML.child_elements(o))
-					gpio.digital_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
-				 end
+			if (LightXML.name(o) == "pins")
+				if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "digital")
+					for p in collect(LightXML.child_elements(o))
+						gpio.digital_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
+					 end
+				end
+				if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "analog")
+					for p in collect(LightXML.child_elements(o))
+						gpio.analog_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
+					 end
+				end			
+				if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "pwm")
+					for p in collect(LightXML.child_elements(o))
+						gpio.pwm_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
+					 end
+				end
+				if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "i2c")
+					for p in collect(LightXML.child_elements(o))
+						gpio.i2c_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
+					 end
+				end			
 			end
-			if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "analog")
-				for p in collect(LightXML.child_elements(o))
-					gpio.analog_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
-				 end
-			end			
-			if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "pwm")
-				for p in collect(LightXML.child_elements(o))
-					gpio.pwm_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
-				 end
+			if (LightXML.name(o) == "device")
+				if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "i2c")
+					for p in collect(LightXML.child_elements(o))
+						push!(gpio.i2c_devices, LightXML.content(p))
+					 end
+				end
 			end
-			if (LightXML.has_attribute(o, "category") && LightXML.attribute(o, "category") == "i2c")
-				for p in collect(LightXML.child_elements(o))
-					gpio.i2c_pin[LightXML.name(p)] = parse(Int32, LightXML.content(p))
-				 end
-			end			
 		end
 	end
 	

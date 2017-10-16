@@ -14,9 +14,11 @@
 		<pins category="pwm">
 			<DBG_RX>5</DBG_RX>
 		</pins>
-		<pins category="i2c">
-			<I2C0_SDA>3</I2C0_SDA>
-			<I2C0_SCL>5</I2C0_SCL>
-		</pins>
+		<device category="i2c">
+			<name>/dev/i2c-0</name>
+		</device>
+		<device category="spi">
+			<name></name>
+		</device>
 	</machine>
 </machine_information>

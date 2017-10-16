@@ -86,5 +86,11 @@
 				<P9_PIN14>0</P9_PIN14>
 				<P9_PIN16>1</P9_PIN16>
 		</pins>
+		<device category="i2c">
+			<name></name>
+		</device>
+		<device category="spi">
+			<name></name>
+		</device>
 	</machine>
 </machine_information>

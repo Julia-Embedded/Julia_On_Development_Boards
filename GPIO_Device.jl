@@ -15,8 +15,10 @@ type DeviceGPIO <: MachineGPIO
     digital_pin::Dict{String, Int}
     analog_pin::Dict{String, Int}		
     pwm_pin::Dict{String, Int}		
+    i2c_devices::Vector{String}
+    spi_devices::Vector{String}
     function DeviceGPIO()
-		new("", "", 0, "", "", Dict(), Dict(), Dict())
+		new("", "", 0, "", "", Dict(), Dict(), Dict(),[],[])
     end
 end
 
