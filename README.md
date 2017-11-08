@@ -11,7 +11,9 @@ See the videos for a demonstration:
 
 https://photos.app.goo.gl/0j8f1OwTQFWWTD052, https://photos.app.goo.gl/EI4JTKJqKwtJOWzk2 
 
-The videos are a bit dated. I've streamlined the code quite a bit more.
+The videos are a bit dated. I've streamlined the code quite a bit more. Here's a link to doing SPI with Julia:
+
+https://photos.app.goo.gl/DYCXtMNSYp1zIV5Y2
 
 
 Each board uses the module file GPIO_Device.jl. Each board also has a corresponding .xml file. This allows the user to define pins and other things with regards to that particular board. You will see the use of the .xml files in the examples below. The .xml files allows an instance object of type DeviceGPIO to be initialised with values from the .xml file. Here's what a dev. board XML file looks like (so far):
